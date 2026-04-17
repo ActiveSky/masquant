@@ -1,0 +1,8 @@
+.vscode/
+
+masquant.egg-info/
+
+weights/
+
+
+__pycache__/
