@@ -6,3 +6,11 @@ weights/
 
 
 __pycache__/
+
+my-datasets/coco/
+
+outputs_vl/
+
+act_scales/
+
+cache/

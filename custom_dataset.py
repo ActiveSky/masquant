@@ -1,7 +1,6 @@
 
 from datasets import load_dataset
 from typing import Dict
-from qwen_omni_utils import process_mm_info
 import json
 
 def prepare_dataset(n_sample: int = 8, data_type: str = 'text-vision') -> list[list[dict]]:
@@ -42,11 +41,11 @@ def prepare_dataset(n_sample: int = 8, data_type: str = 'text-vision') -> list[l
                 conversations.append(prompt)
         return conversations[:n_sample]
     elif data_type == 'vision-only':
-        dataset_json = '/nas/yuehu/NEW/qwen_compressor/dataset/sharegpt4v_instruct_gpt4-vision_cap100k_filtered_coco_image.json'
+        dataset_json = '/root/autodl-tmp/masquant/my-datasets/coco_data.json'
         with open(dataset_json, "r") as json_file:
             dataset = json.load(json_file)
             
-        prefix_path = "file:///nas/yuehu/assets/dataset/"
+        prefix_path = "file:///root/autodl-tmp/masquant/my-datasets/"
 
         dataset_ret = []
         for i in range(n_sample):
@@ -91,11 +90,11 @@ def prepare_dataset(n_sample: int = 8, data_type: str = 'text-vision') -> list[l
                 conversations.append(dataset["prompt"])
         return conversations[:n_sample]
     elif data_type == 'text-vision':
-        dataset_json = '/nas/yuehu/NEW/qwen_compressor/dataset/sharegpt4v_instruct_gpt4-vision_cap100k_filtered_coco_image.json'
+        dataset_json = '/root/autodl-tmp/masquant/my-datasets/coco_data.json'
         with open(dataset_json, "r") as json_file:
             dataset = json.load(json_file)
             
-        prefix_path = "file:///nas/yuehu/assets/dataset/"
+        prefix_path = "file:///root/autodl-tmp/masquant/my-datasets/"
 
         dataset_ret = []
         for i in range(n_sample):
@@ -182,6 +181,7 @@ def prepare_dataset_before_quant(processor, calibration_dataset, batch_size: int
         else:
             text = processor.apply_chat_template(batch, tokenize=False, add_generation_prompt=True)
             if is_qwen_vl == False:
+                from qwen_omni_utils import process_mm_info
                 audios, images, videos = process_mm_info(batch, use_audio_in_video=False)
                 inputs = processor(text=text, images=images, videos=videos, audio=audios, padding=True, return_tensors="pt")
             else:

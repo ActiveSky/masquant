@@ -53,10 +53,10 @@ from datasets import load_dataset
 import functools
 from tqdm import tqdm
 from datautils import get_loaders
-try:
-    from llava.model import *   # required for llava
-except ImportError:
-    print("If want to quantize llave models, you should manually install llava from https://github.com/haotian-liu/LLaVA")
+# try:
+#     from llava.model import *   # required for llava
+# except ImportError:
+#     print("If want to quantize llave models, you should manually install llava from https://github.com/haotian-liu/LLaVA")
 
 # 仅考虑vision/audio/text 的情况，其中 vision/audio 是不包含各自的 start/end token; text 是其余 system/start/end/video 相关的.
 def get_act_scales(model, dataloader, num_samples=128, model_type="qwen"):
